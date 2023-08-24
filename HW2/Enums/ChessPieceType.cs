@@ -17,7 +17,7 @@ namespace HW2.Enums
         ROOK = 2,
         [Description("B")]
         BISHOP = 3,
-        [Description("Kn")]
+        [Description("A")]
         KNIGHT = 4,
         [Description("P")]
         PAWN = 5,

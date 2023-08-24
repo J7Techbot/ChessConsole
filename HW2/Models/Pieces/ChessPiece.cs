@@ -36,7 +36,7 @@ namespace HW2.Models.Pieces
 
         public override string ToString()
         {
-            return chessPieceType.GetDescription();
+            return $"{color.GetDescription()}{chessPieceType.GetDescription()}";
         }
     }
 }

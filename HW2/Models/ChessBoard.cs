@@ -7,11 +7,13 @@ namespace HW2.Models
     {
         private readonly ChessPiece[,] chessBoard = new ChessPiece[8, 8];
 
+        public ChessBoard()
+        {
+            InitChessBoard();
+        }
+
         private void InitChessBoard()
         {
-            List<ChessPiece> whitePawns = CreatePawns(Color.WHITE,row: 5);
-            List<ChessPiece> blackPawns = CreatePawns(Color.BLACK, row: 1);
-
             Dictionary<Color, List<ChessPiece>> allChessPieces = new Dictionary<Color, List<ChessPiece>>()
             {
                 { Color.WHITE, new List<ChessPiece>()
@@ -39,6 +41,40 @@ namespace HW2.Models
                     }
                 }
             };
+
+            allChessPieces[Color.WHITE].AddRange(CreatePawns(Color.WHITE, row: 6));
+            allChessPieces[Color.WHITE].AddRange(CreatePawns(Color.BLACK, row: 1));
+
+            foreach (var piece in allChessPieces[Color.WHITE])
+            {
+                chessBoard[piece.GetCurrentPosition().X, piece.GetCurrentPosition().Y] = piece;
+            }
+            foreach (var piece in allChessPieces[Color.BLACK])
+            {
+                chessBoard[piece.GetCurrentPosition().X, piece.GetCurrentPosition().Y] = piece;
+            }
+
+        }
+        public void DrawChessBoard()
+        {
+            Console.WriteLine("round one");
+            string board = "";
+            for (int i = 0; i < chessBoard.GetLength(0); i++)
+            {
+                for (int j = 0; j < chessBoard.GetLength(1); j++)
+                {
+                    if (chessBoard[i, j] == null)
+                        board += "[]";
+                    else
+                        board += chessBoard[i, j];
+
+                    board += " ";
+                }
+
+                board += "\n\n";
+            }
+
+            CustomConsole.WriteLineCentered(board);
         }
         private List<ChessPiece> CreatePawns(Color color,int row)
         {

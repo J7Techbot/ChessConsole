@@ -11,7 +11,7 @@ namespace HW2.Models.Pieces
     {
         public Knight(Position defaultPosition, Color color) : base(defaultPosition, color)
         {
-            chessPieceType = ChessPieceType.PAWN;
+            chessPieceType = ChessPieceType.KNIGHT;
         }
 
         public override void Move(Position nextPosition)
