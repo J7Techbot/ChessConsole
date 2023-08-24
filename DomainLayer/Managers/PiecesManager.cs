@@ -1,18 +1,12 @@
-﻿using HW2.Enums;
-using HW2.Models.Pieces;
+﻿using HW2.Models.Pieces;
+using HW2.Models;
+using HW2.Enums;
 
-namespace HW2.Models
+namespace DomainLayer.Managers
 {
-    public class ChessBoard
+    public class PiecesManager
     {
-        private readonly ChessPiece[,] chessBoard = new ChessPiece[8, 8];
-
-        public ChessBoard()
-        {
-            InitChessBoard();
-        }
-
-        private void InitChessBoard()
+        public Dictionary<Color, List<ChessPiece>> InstantiateAllPieces()
         {
             Dictionary<Color, List<ChessPiece>> allChessPieces = new Dictionary<Color, List<ChessPiece>>()
             {
@@ -25,7 +19,7 @@ namespace HW2.Models
                         { new Knight(defaultPosition:new Position(7,1),Color.WHITE )},
                         { new Knight(defaultPosition:new Position(7,6),Color.WHITE )},
                         { new Rook(defaultPosition:new Position(7,0),Color.WHITE )},
-                        { new Rook(defaultPosition:new Position(7,7),Color.WHITE )},                        
+                        { new Rook(defaultPosition:new Position(7,7),Color.WHITE )},
                     }
                 },
                 { Color.BLACK, new List<ChessPiece>()
@@ -45,38 +39,10 @@ namespace HW2.Models
             allChessPieces[Color.WHITE].AddRange(CreatePawns(Color.WHITE, row: 6));
             allChessPieces[Color.WHITE].AddRange(CreatePawns(Color.BLACK, row: 1));
 
-            foreach (var piece in allChessPieces[Color.WHITE])
-            {
-                chessBoard[piece.GetCurrentPosition().X, piece.GetCurrentPosition().Y] = piece;
-            }
-            foreach (var piece in allChessPieces[Color.BLACK])
-            {
-                chessBoard[piece.GetCurrentPosition().X, piece.GetCurrentPosition().Y] = piece;
-            }
-
+            return allChessPieces;
         }
-        public void DrawChessBoard()
-        {
-            Console.WriteLine("round one");
-            string board = "";
-            for (int i = 0; i < chessBoard.GetLength(0); i++)
-            {
-                for (int j = 0; j < chessBoard.GetLength(1); j++)
-                {
-                    if (chessBoard[i, j] == null)
-                        board += "[]";
-                    else
-                        board += chessBoard[i, j];
 
-                    board += " ";
-                }
-
-                board += "\n\n";
-            }
-
-            CustomConsole.WriteLineCentered(board);
-        }
-        private List<ChessPiece> CreatePawns(Color color,int row)
+        private List<ChessPiece> CreatePawns(Color color, int row)
         {
             List<ChessPiece> pawns = new List<ChessPiece>();
 
@@ -86,10 +52,6 @@ namespace HW2.Models
             }
 
             return pawns;
-        }
-        private void SetPiece(ChessPiece chessPiece)
-        {
-
         }
     }
 }

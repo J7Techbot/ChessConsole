@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW2", "HW2\HW2.csproj", "{D47C6B0C-597A-408E-9737-13C317A44EF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewLayer", "HW2\ViewLayer.csproj", "{D47C6B0C-597A-408E-9737-13C317A44EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainLayer", "DomainLayer\DomainLayer.csproj", "{5A31597F-5D90-407E-A1E6-1600C5D6102B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D47C6B0C-597A-408E-9737-13C317A44EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D47C6B0C-597A-408E-9737-13C317A44EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D47C6B0C-597A-408E-9737-13C317A44EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A31597F-5D90-407E-A1E6-1600C5D6102B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A31597F-5D90-407E-A1E6-1600C5D6102B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A31597F-5D90-407E-A1E6-1600C5D6102B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A31597F-5D90-407E-A1E6-1600C5D6102B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
