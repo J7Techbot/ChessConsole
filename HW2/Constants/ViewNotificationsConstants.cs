@@ -13,6 +13,7 @@ namespace ViewLayer.Constants
         public static readonly string CurrentPlayerInfo = "Na tahu je hráč: ";
         public static readonly string CurrentRoundInfo = "Kolo: ";
         public static readonly string SelectPiece = "Prosím vyberte figuru se kterou chcete táhnout.";
+        public static readonly string SelectMove = "Prosím vyberte pozici kam chcete táhnout.";
 
         //Erorrs
         public static readonly string NullError = "Zadejte hodnotu pozice v libovolném pořadí.";

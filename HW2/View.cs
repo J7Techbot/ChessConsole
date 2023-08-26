@@ -5,21 +5,41 @@ using HW2.Models;
 using HW2.Models.Pieces;
 using ViewLayer.Constants;
 using ViewLayer.Enums;
+using ViewLayer.Models;
 
-namespace ViewLayer.Models
+namespace ViewLayer
 {
-    public class GamePresenter
+    public class View
     {
-        public GamePresenter(IViewTrigger viewTrigger)
+        private ViewModel viewModel;
+        public View()
         {
-            viewTrigger.UpdateGameStatusEvent += UpdateGameStatus;
-            viewTrigger.InvalidMoveEvent += InvalidMove;
-            viewTrigger.ExpectedInputEvent += GetInput;
+            viewModel = new ViewModel();
+
+            viewModel.UpdateGameStatusEvent += UpdateGameStatus;
+            viewModel.InvalidMoveEvent += InvalidMove;
+            viewModel.ExpectedInputEvent += GetInput;
+
+            viewModel.StartGame();
         }
 
-        private string GetInput()
+        private string GetInput(InputQueryType inputQueryType)
         {
-            return Console.ReadLine();
+            switch (inputQueryType)
+            {
+                case InputQueryType.SELECT_PIECE:
+                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectPiece}", ConsoleTextPosition.BOTTOM);
+                    break;
+                case InputQueryType.SELECT_MOVE:
+                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectMove}", ConsoleTextPosition.BOTTOM);
+                    break;
+            }
+
+            string input = Console.ReadLine();
+
+            ConsoleWritter.ClearLine(Console.CursorTop - 1);
+
+            return input;
         }
 
         private void InvalidMove(InvalidStatus invalidStatus)
@@ -27,19 +47,19 @@ namespace ViewLayer.Models
             switch (invalidStatus.InvalidErrorType)
             {
                 case InvalidErrorType.NULL:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError, Console.CursorTop);
                     break;
                 case InvalidErrorType.TOO_LONG:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooLongError);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooLongError, Console.CursorTop);
                     break;
                 case InvalidErrorType.TOO_SHORT:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooShortError);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooShortError, Console.CursorTop);
                     break;
                 case InvalidErrorType.BAD_COMBINATION:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError, Console.CursorTop);
                     break;
                 case InvalidErrorType.INVALID_VALUES:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError, Console.CursorTop);
                     break;
             }
         }
@@ -52,6 +72,7 @@ namespace ViewLayer.Models
 
             Console.Clear();
         }
+
         private void UpdateGameStatus(GameStatus gameStatus)
         {
             Console.Clear();
@@ -60,13 +81,7 @@ namespace ViewLayer.Models
                 $"{ViewNotificationsConstants.CurrentPlayerInfo}{gameStatus.CurrentPlayer}\n" +
                 $"{ViewNotificationsConstants.CurrentRoundInfo}{gameStatus.CurrentRound}", ConsoleTextPosition.TOP);
 
-            ConsoleWritter.WriteLineAtPosition($"{StringifyChessBoard(gameStatus.ChessBoard)}", ConsoleTextPosition.MIDDLE);
-
-            SelectPiece();
-        }
-        private void SelectPiece()
-        {
-            ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectPiece}", ConsoleTextPosition.BOTTOM);
+            ConsoleWritter.WriteLineAtPosition($"{StringifyChessBoard(gameStatus.ChessBoard)}", ConsoleTextPosition.MIDDLE);           
         }
 
         public string StringifyChessBoard(ChessPiece[,] chessBoard)

@@ -29,9 +29,9 @@ namespace DomainLayer.Models
             return true;
         }
 
-        internal bool MoveValidation(string position, out InvalidStatus invalidStatus)
+        public bool MoveValidation(string position, out InvalidStatus invalidStatus)
         {
-            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_MOVE, out invalidStatus))            
+            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_MOVE_SELECTION, out invalidStatus))            
                 return false;
             
             invalidStatus = null;

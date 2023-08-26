@@ -28,6 +28,11 @@ namespace HW2.Models
         public ChessPiece[,] GetChessBoard()
         {
             return chessBoard;
-        }        
+        }
+
+        internal ChessPiece GetPiece(Position piecePosition)
+        {
+            return chessBoard[piecePosition.X, piecePosition.Y];
+        }
     }
 }

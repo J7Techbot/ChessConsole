@@ -19,7 +19,7 @@ namespace ViewLayer.Models
             Dictionary<string, int> consoleInfo = GetConsoleInfo();
 
             string[] lines = GetLines(text);
-            
+
             int modifiedTopPadding = GetTopPadding(position, consoleInfo, lines);
 
             WritteLines(consoleInfo, lines, modifiedTopPadding);
@@ -30,15 +30,18 @@ namespace ViewLayer.Models
         private static void WritteLines(Dictionary<string, int> consoleInfo, string[] lines, int topPadding)
         {
             foreach (string line in lines)
-            {               
-                Console.SetCursorPosition(GetLeftPadding(consoleInfo,line), topPadding);
+            {
+                Console.SetCursorPosition(0, topPadding);
+                Console.Write(new string(' ', Console.WindowWidth));
+
+                Console.SetCursorPosition(GetLeftPadding(consoleInfo, line), topPadding);
                 Console.WriteLine(line);
                 topPadding++;
             }
         }
         private static string[] GetLines(string text)
         {
-            return text.Split(new[] { '\n' }); 
+            return text.Split(new[] { '\n' });
         }
         private static int GetTopPadding(ConsoleTextPosition position, Dictionary<string, int> consoleInfo, string[] lines)
         {
@@ -68,18 +71,30 @@ namespace ViewLayer.Models
                 {"originalCursorTop", Console.CursorTop}
             };
         }
-        public static void RewriteCurrentLine(string newText)
+        public static void ClearUserText(string newText)
         {
             int currentCursorTop = Console.CursorTop;
             int currentCursorLeft = Console.CursorLeft;
 
+            ClearLine(currentCursorTop - 1);
+
+            RewriteCurrentLine(newText, currentCursorLeft);
+
+            Console.Write(newText);
+        }
+        public static void RewriteCurrentLine(string newText, int currentCursorTop)
+        {
+            ClearLine(currentCursorTop);
+
+            Console.Write(newText);
+        }
+
+        public static void ClearLine(int? cursorTop = null)
+        {
+            cursorTop = cursorTop ?? Console.CursorTop;
+
+            Console.SetCursorPosition(0, (int)cursorTop);
             Console.Write(new string(' ', Console.WindowWidth));
-
-            Console.SetCursorPosition(0, currentCursorTop -1 );
-            Console.Write(new string(' ', Console.WindowWidth)); 
-
-            Console.Write(newText); 
-            Console.SetCursorPosition(0, currentCursorTop - 1);
         }
     }
 }
