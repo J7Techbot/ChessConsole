@@ -9,7 +9,7 @@ namespace HW2.Models
     /// <summary>
     /// It determines the position on the chessboard using the X and Y axes.
     /// </summary>
-    public class Position
+    public struct Position
     {
         public Position(int x, int y)
         {

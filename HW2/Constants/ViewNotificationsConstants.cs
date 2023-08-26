@@ -21,5 +21,6 @@ namespace ViewLayer.Constants
         public static readonly string TooShortError = "Zadali jste nevalidní pozici. Pozice neobsahovala dostatek znaků.";
         public static readonly string BadCombinationError = "Zadaná hodnota neobsahuje číslo, nebo znak.";
         public static readonly string InvalidValuesError = "Číslo, nebo písmeno přesahuje maximální hodnotu hrací desky.";
+        public static readonly string InvalidPiece = "Na vybraném poli se nenachází žádná figura.";
     }
 }

@@ -14,7 +14,7 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.ROOK;
         }
 
-        public override void Move(Position nextPosition)
+        public override bool ValidateMove(Position nextPosition)
         {
             throw new NotImplementedException();
         }

@@ -7,5 +7,6 @@
         TOO_SHORT = 2,
         BAD_COMBINATION = 3,
         INVALID_VALUES = 4,
+        INVALID_PIECE = 5,
     }
 }

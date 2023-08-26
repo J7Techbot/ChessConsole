@@ -25,12 +25,20 @@ namespace HW2.Models
             }
         }
         
+        public void MovePiece(ChessPiece piece, Position destination)
+        {
+            chessBoard[piece.GetCurrentPosition().X, piece.GetCurrentPosition().Y] = null;
+            chessBoard[destination.X, destination.Y] = piece;
+
+            piece.UpdateCurrentPosition(destination);
+        }
+
         public ChessPiece[,] GetChessBoard()
         {
             return chessBoard;
         }
 
-        internal ChessPiece GetPiece(Position piecePosition)
+        public ChessPiece GetPiece(Position piecePosition)
         {
             return chessBoard[piecePosition.X, piecePosition.Y];
         }

@@ -1,37 +1,32 @@
-﻿using DomainLayer.Managers;
+﻿using DomainLayer.Extensions;
+using DomainLayer.Helpers;
 using HW2.Enums;
 using HW2.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomainLayer.Models
 {
     public class MoveValidator
     {
-        private PositionManager positionManager;
-
-        public MoveValidator()
+        public bool SelectionValidation(string position, GameStatus gameStatus, out InvalidStatus invalidStatus)
         {
-            this.positionManager = new PositionManager();
-        }
-
-
-        public bool SelectionValidation(string position, out InvalidStatus invalidStatus)
-        {
-            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_PIECE_SELECTION, out invalidStatus))
+            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_PIECE_SELECTION, gameStatus, out invalidStatus))
                 return false;
+
+            Position parsedPosition = PositionHelper.ParseInput(position);
+            if (!gameStatus.ChessBoard.Contains(parsedPosition.X, parsedPosition.Y))
+            {
+                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_PIECE, InvalidMoveType.INVALID_PIECE_SELECTION);
+                return false;
+            }
 
             invalidStatus = null;
 
             return true;
         }
 
-        public bool MoveValidation(string position, out InvalidStatus invalidStatus)
+        public bool MoveValidation(string position, GameStatus gameStatus, out InvalidStatus invalidStatus)
         {
-            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_MOVE_SELECTION, out invalidStatus))            
+            if (!ValidateBoardConstraints(position, InvalidMoveType.INVALID_MOVE_SELECTION, gameStatus, out invalidStatus))            
                 return false;
             
             invalidStatus = null;
@@ -39,8 +34,9 @@ namespace DomainLayer.Models
             return true;
         }
 
-        private bool ValidateBoardConstraints(string position, InvalidMoveType invalidMoveType, out InvalidStatus invalidStatus)
+        private bool ValidateBoardConstraints(string position, InvalidMoveType invalidMoveType, GameStatus gameStatus, out InvalidStatus invalidStatus)
         {
+            
             if (string.IsNullOrEmpty(position))
             {
                 invalidStatus = new InvalidStatus(InvalidErrorType.NULL, invalidMoveType);
@@ -61,11 +57,11 @@ namespace DomainLayer.Models
                 invalidStatus = new InvalidStatus(InvalidErrorType.BAD_COMBINATION, invalidMoveType);
                 return false;
             }
-            else if (!positionManager.ValidateInput(position))
+            else if (!PositionHelper.ValidateInput(position))
             {
                 invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_VALUES, invalidMoveType);
                 return false;
-            }
+            }           
 
             invalidStatus = null;
 

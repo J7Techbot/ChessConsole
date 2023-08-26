@@ -20,7 +20,7 @@ namespace ViewLayer
             viewModel.InvalidMoveEvent += InvalidMove;
             viewModel.ExpectedInputEvent += GetInput;
 
-            viewModel.StartGame();
+            viewModel.RunGame();
         }
 
         private string GetInput(InputQueryType inputQueryType)
@@ -60,6 +60,9 @@ namespace ViewLayer
                     break;
                 case InvalidErrorType.INVALID_VALUES:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError, Console.CursorTop);
+                    break;
+                case InvalidErrorType.INVALID_PIECE:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidPiece, Console.CursorTop);
                     break;
             }
         }

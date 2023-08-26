@@ -27,13 +27,15 @@ namespace HW2.Models.Pieces
         {
             return currentPosition;
         }
-
+        public void UpdateCurrentPosition(Position newPosition)
+        {
+            currentPosition = newPosition;
+        }
         public ChessPieceType GetPieceType()
         {
             return chessPieceType;
         }
-        public abstract void Move(Position nextPosition);
-
+        public abstract bool ValidateMove(Position nextPosition);
         public override string ToString()
         {
             return $"{color.GetDescription()}{chessPieceType.GetDescription()}";
