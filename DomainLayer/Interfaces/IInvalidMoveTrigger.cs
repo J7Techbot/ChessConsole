@@ -1,11 +1,6 @@
-﻿using DomainLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HW2.Models;
 
-namespace DomainLayer.Interfaces
+namespace HW2.Interfaces
 {
     public interface IInvalidMoveTrigger
     {

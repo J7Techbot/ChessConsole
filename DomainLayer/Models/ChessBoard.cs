@@ -1,5 +1,5 @@
-﻿using DomainLayer.Managers;
-using HW2.Enums;
+﻿using HW2.Enums;
+using HW2.Managers;
 using HW2.Models.Pieces;
 
 namespace HW2.Models

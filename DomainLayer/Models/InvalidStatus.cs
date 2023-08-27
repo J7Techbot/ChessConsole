@@ -1,15 +1,14 @@
 ﻿using HW2.Enums;
 
-namespace DomainLayer.Models
+namespace HW2.Models
 {
     public class InvalidStatus
     {
         public InvalidErrorType InvalidErrorType { get; set; }
-        public InvalidMoveType InvalidMoveType { get; set; }
-        public InvalidStatus(InvalidErrorType invalidErrorType, InvalidMoveType invalidMoveType)
+
+        public InvalidStatus(InvalidErrorType invalidErrorType)
         {
             InvalidErrorType = invalidErrorType;
-            InvalidMoveType = invalidMoveType;
         }
     }
 

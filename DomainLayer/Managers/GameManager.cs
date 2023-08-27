@@ -1,16 +1,11 @@
-﻿using DomainLayer.Interfaces;
-using DomainLayer.Models;
-using HW2.Enums;
-using HW2.Models;
+﻿using HW2.Models;
 using HW2.Models.Pieces;
 
-namespace DomainLayer.Managers
+namespace HW2.Managers
 {
-    public class GameManager 
+    public class GameManager
     {
         public bool GameOver { get; private set; }
-
-        public Action<Position, Position> UserInputReceived { get; set; }
 
         private ChessBoard chessBoard;
         private RoundManager roundManager;
@@ -20,22 +15,18 @@ namespace DomainLayer.Managers
             chessBoard = new ChessBoard();
             roundManager = new RoundManager();
         }
-        public GameStatus MakeMove(Position piecePosition, Position movePosition)
+        public GameStatus MakeMove(Position piecePosition, Position movePosition, out InvalidStatus invalidStatus)
         {
             ChessPiece piece = chessBoard.GetPiece(piecePosition);
 
-            if (!piece.ValidateMove(movePosition))
+            if (!piece.ValidateMove(movePosition, chessBoard.GetChessBoard(), out invalidStatus))
                 return null;
 
             chessBoard.MovePiece(piece, movePosition);
 
-            NextRound();
+            roundManager.NextRound();
 
             return GetGameStatus();
-        }
-        public void NextRound()
-        {
-            roundManager.NextRound();
         }
 
         public GameStatus GetGameStatus()

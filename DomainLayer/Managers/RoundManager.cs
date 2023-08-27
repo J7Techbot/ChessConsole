@@ -1,12 +1,6 @@
 ﻿using HW2.Enums;
-using HW2.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DomainLayer.Managers
+namespace HW2.Managers
 {
     public class RoundManager
     {

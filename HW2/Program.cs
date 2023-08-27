@@ -1,5 +1,4 @@
-﻿using DomainLayer.Managers;
-using ViewLayer;
+﻿using ViewLayer;
 
 internal class Program
 {

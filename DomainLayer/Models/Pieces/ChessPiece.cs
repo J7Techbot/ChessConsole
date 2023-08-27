@@ -1,10 +1,6 @@
 ﻿using HW2.Enums;
 using HW2.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HW2.Helpers;
 
 namespace HW2.Models.Pieces
 {
@@ -15,12 +11,12 @@ namespace HW2.Models.Pieces
     {
         protected Position currentPosition;
         protected ChessPieceType chessPieceType;
-        protected Color color;
+        public Color Color { get; private set; }
 
         public ChessPiece(Position defaultPosition, Color color)
         {
             this.currentPosition = defaultPosition;
-            this.color = color;
+            this.Color = color;
         }
 
         public Position GetCurrentPosition()
@@ -35,10 +31,23 @@ namespace HW2.Models.Pieces
         {
             return chessPieceType;
         }
-        public abstract bool ValidateMove(Position nextPosition);
+        public abstract bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus);
         public override string ToString()
         {
-            return $"{color.GetDescription()}{chessPieceType.GetDescription()}";
+            return $"{Color.GetDescription()}{chessPieceType.GetDescription()}";
+        }
+        public bool IsValidTarget(Position targetPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus)
+        {
+            invalidStatus = null;
+
+            //target same color
+            if (chessBoard[targetPosition.X, targetPosition.Y] != null && chessBoard[targetPosition.X, targetPosition.Y].Color == Color)
+            {
+                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_TARGET);
+                return false;
+            }
+                            
+            return true;
         }
     }
 }

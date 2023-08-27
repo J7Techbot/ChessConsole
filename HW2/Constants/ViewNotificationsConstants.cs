@@ -22,5 +22,9 @@ namespace ViewLayer.Constants
         public static readonly string BadCombinationError = "Zadaná hodnota neobsahuje číslo, nebo znak.";
         public static readonly string InvalidValuesError = "Číslo, nebo písmeno přesahuje maximální hodnotu hrací desky.";
         public static readonly string InvalidPiece = "Na vybraném poli se nenachází žádná figura.";
+        public static readonly string InvalidMove = "Takto s figurou není možné hýbat.";
+        public static readonly string SquareOccupied = "Na vybraném čtverci se nachází jiná figura.";
+        public static readonly string InvalidTarget = "Vybrané pole není validní cíl pro vybranou figuru.";
+        public static readonly string ThreatenedPosition = "Cílová pozice je ohrožována nepřátelskou figurou.";
     }
 }

@@ -2,7 +2,7 @@
 using HW2.Models;
 using HW2.Enums;
 
-namespace DomainLayer.Managers
+namespace HW2.Managers
 {
     public class PiecesManager
     {

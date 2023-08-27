@@ -1,6 +1,4 @@
-﻿using DomainLayer.Interfaces;
-using DomainLayer.Models;
-using HW2.Enums;
+﻿using HW2.Enums;
 using HW2.Models;
 using HW2.Models.Pieces;
 using ViewLayer.Constants;
@@ -17,7 +15,7 @@ namespace ViewLayer
             viewModel = new ViewModel();
 
             viewModel.UpdateGameStatusEvent += UpdateGameStatus;
-            viewModel.InvalidMoveEvent += InvalidMove;
+            viewModel.InvalidStatusNotificationEvent += InvalidStatusNotification;
             viewModel.ExpectedInputEvent += GetInput;
 
             viewModel.RunGame();
@@ -42,7 +40,7 @@ namespace ViewLayer
             return input;
         }
 
-        private void InvalidMove(InvalidStatus invalidStatus)
+        private void InvalidStatusNotification(InvalidStatus invalidStatus)
         {
             switch (invalidStatus.InvalidErrorType)
             {
@@ -63,6 +61,18 @@ namespace ViewLayer
                     break;
                 case InvalidErrorType.INVALID_PIECE:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidPiece, Console.CursorTop);
+                    break;
+                case InvalidErrorType.INVALID_MOVE:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMove, Console.CursorTop);
+                    break;
+                case InvalidErrorType.SQUARE_OCCUPIED:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupied, Console.CursorTop);
+                    break;
+                case InvalidErrorType.INVALID_TARGET:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTarget, Console.CursorTop);
+                    break;
+                case InvalidErrorType.THREATENED_POSITION:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.ThreatenedPosition, Console.CursorTop);
                     break;
             }
         }
