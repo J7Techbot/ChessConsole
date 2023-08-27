@@ -1,6 +1,6 @@
 ﻿namespace HW2.Enums
 {
-    public enum InvalidErrorType
+    public enum NotificationType
     {
         NULL = 0,
         TOO_LONG = 1,
@@ -12,5 +12,7 @@
         SQUARE_OCCUPIED = 7,
         INVALID_TARGET = 8,
         THREATENED_POSITION = 9,
+
+        CHECK = 20,
     }
 }

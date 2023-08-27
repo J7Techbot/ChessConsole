@@ -4,6 +4,6 @@ namespace HW2.Interfaces
 {
     public interface IInvalidMoveTrigger
     {
-        public Action<InvalidStatus> InvalidMoveEvent { get; set; }
+        public Action<Notification> InvalidMoveEvent { get; set; }
     }
 }

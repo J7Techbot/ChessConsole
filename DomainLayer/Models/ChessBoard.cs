@@ -42,5 +42,19 @@ namespace HW2.Models
         {
             return chessBoard[piecePosition.X, piecePosition.Y];
         }
+
+        public List<ChessPiece> GetAllPieces(Color color, ChessPieceType chessPieceType = (ChessPieceType)63)
+        {
+            List<ChessPiece> pieces = new List<ChessPiece>();
+            for (int row = 0; row < chessBoard.GetLength(0); row++)
+            {
+                for (int column = 0; column < chessBoard.GetLength(1); column++)
+                {
+                    if (chessBoard[row, column] != null && chessBoard[row, column].Color == color && (chessPieceType & chessBoard[row, column].GetPieceType()) != 0)
+                        pieces.Add(chessBoard[row, column]);
+                }
+            }
+            return pieces;
+        }
     }
 }

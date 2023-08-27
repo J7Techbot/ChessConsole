@@ -11,7 +11,7 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.KING;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
         {
             if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out invalidStatus, distance: 1))
             {
@@ -29,30 +29,34 @@ namespace HW2.Models.Pieces
             }
             else
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
             if (!IsValidTarget(targetPosition, chessBoard, out invalidStatus))
                 return false;
 
-            if (!CanMove(targetPosition, chessBoard))
-            {
-                invalidStatus = new InvalidStatus(InvalidErrorType.THREATENED_POSITION);
+            if (!CanMove(targetPosition, chessBoard,out invalidStatus))            
                 return false;
-            }
+            
 
             return true;
         }
-        private bool CanMove(Position targetPosition, ChessPiece[,] chessBoard)
+        private bool CanMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
         {
+            invalidStatus = null;
+
             List<ChessPiece> enemies = GetAllEnemyPieces(chessBoard);
 
             foreach (var enemy in enemies)
             {
                 //The target position is threatened by an enemy piece.
-                if (enemy.ValidateMove(targetPosition, chessBoard, out InvalidStatus invalidStatus))
+                if (enemy.ValidateMove(targetPosition, chessBoard,out _))
+                {
+                    invalidStatus = new Notification(NotificationType.THREATENED_POSITION);
+                    invalidStatus.Param = enemy;
                     return false;
+                }
             }
 
             return true;

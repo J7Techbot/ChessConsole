@@ -15,7 +15,7 @@ namespace ViewLayer
             viewModel = new ViewModel();
 
             viewModel.UpdateGameStatusEvent += UpdateGameStatus;
-            viewModel.InvalidStatusNotificationEvent += InvalidStatusNotification;
+            viewModel.NotificationEvent += InvalidStatusNotification;
             viewModel.ExpectedInputEvent += GetInput;
 
             viewModel.RunGame();
@@ -40,39 +40,42 @@ namespace ViewLayer
             return input;
         }
 
-        private void InvalidStatusNotification(InvalidStatus invalidStatus)
+        private void InvalidStatusNotification(Notification invalidStatus)
         {
-            switch (invalidStatus.InvalidErrorType)
+            switch (invalidStatus.NotificationType)
             {
-                case InvalidErrorType.NULL:
+                case NotificationType.NULL:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError, Console.CursorTop);
                     break;
-                case InvalidErrorType.TOO_LONG:
+                case NotificationType.TOO_LONG:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooLongError, Console.CursorTop);
                     break;
-                case InvalidErrorType.TOO_SHORT:
+                case NotificationType.TOO_SHORT:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooShortError, Console.CursorTop);
                     break;
-                case InvalidErrorType.BAD_COMBINATION:
+                case NotificationType.BAD_COMBINATION:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError, Console.CursorTop);
                     break;
-                case InvalidErrorType.INVALID_VALUES:
+                case NotificationType.INVALID_VALUES:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError, Console.CursorTop);
                     break;
-                case InvalidErrorType.INVALID_PIECE:
+                case NotificationType.INVALID_PIECE:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidPiece, Console.CursorTop);
                     break;
-                case InvalidErrorType.INVALID_MOVE:
+                case NotificationType.INVALID_MOVE:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMove, Console.CursorTop);
                     break;
-                case InvalidErrorType.SQUARE_OCCUPIED:
+                case NotificationType.SQUARE_OCCUPIED:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupied, Console.CursorTop);
                     break;
-                case InvalidErrorType.INVALID_TARGET:
+                case NotificationType.INVALID_TARGET:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTarget, Console.CursorTop);
                     break;
-                case InvalidErrorType.THREATENED_POSITION:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.ThreatenedPosition, Console.CursorTop);
+                case NotificationType.THREATENED_POSITION:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.ThreatenedPosition} : {invalidStatus.Param.ToString()}", Console.CursorTop);
+                    break;
+                case NotificationType.CHECK:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}", Console.CursorTop);
                     break;
             }
         }
@@ -99,10 +102,12 @@ namespace ViewLayer
 
         public string StringifyChessBoard(ChessPiece[,] chessBoard)
         {
-            string board = "";
+            string board = $"A  B  C  D  E  F  G  H \n\n";
+
             for (int i = 0; i < chessBoard.GetLength(0); i++)
             {
                 board += $"{8 - i} - ";
+
                 for (int j = 0; j < chessBoard.GetLength(1); j++)
                 {
                     if (chessBoard[i, j] == null)
@@ -113,10 +118,12 @@ namespace ViewLayer
                     board += " ";
                 }
 
+                board += $"- {8 - i}";
+
                 board += "\n\n";
             }
 
-            board += $"   A  B  C  D  E  F  G  H ";
+            board += $"A  B  C  D  E  F  G  H ";
 
             return board;
         }

@@ -2,19 +2,20 @@
 
 namespace HW2.Enums
 {
+    [Flags]
     public enum ChessPieceType
     {
         [Description("K")]
-        KING = 0,
+        KING = 1,
         [Description("Q")]
-        QUEEN = 1,
+        QUEEN = 2,
         [Description("R")]
-        ROOK = 2,
+        ROOK = 4,
         [Description("B")]
-        BISHOP = 3,
-        [Description("A")]
-        KNIGHT = 4,
+        BISHOP = 8,
+        [Description("F")]
+        KNIGHT = 16,
         [Description("P")]
-        PAWN = 5,
+        PAWN = 32,
     }
 }

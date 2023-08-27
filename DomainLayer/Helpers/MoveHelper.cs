@@ -7,7 +7,7 @@ namespace HW2.Helpers
 {
     public static class MoveHelper
     {
-        public static bool Diagonal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus,int distance = 8)
+        public static bool Diagonal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification invalidStatus,int distance = 8)
         {
             invalidStatus = null;
 
@@ -27,19 +27,19 @@ namespace HW2.Helpers
 
                     if (chessBoard.Contains(x, y))
                     {
-                        invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                        invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
             }
             else
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
             return true;
         }
-        public static bool VerticalHorizontal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus, int distance = 8)
+        public static bool VerticalHorizontal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification invalidStatus, int distance = 8)
         {
             invalidStatus = null;
 
@@ -57,7 +57,7 @@ namespace HW2.Helpers
                     for (int i = floor; i <= ceil; i++)
                     {
                         if (chessBoard.Contains(currentPosition.X, i))
-                            invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                            invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
                 //vertical
@@ -69,7 +69,7 @@ namespace HW2.Helpers
                     for (int i = floor; i <= ceil; i++)
                     {
                         if (chessBoard.Contains(i, currentPosition.Y))
-                            invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                            invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
             }

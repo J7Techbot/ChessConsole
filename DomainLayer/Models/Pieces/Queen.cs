@@ -10,7 +10,7 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.QUEEN;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
         {
             if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out invalidStatus))
             {
@@ -28,7 +28,7 @@ namespace HW2.Models.Pieces
             }
             else
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 

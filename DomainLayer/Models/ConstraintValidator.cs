@@ -6,7 +6,7 @@ namespace HW2.Models
 {
     public class ConstraintValidator
     {
-        public bool SelectionValidation(string position, GameStatus gameStatus, out InvalidStatus invalidStatus)
+        public bool SelectionValidation(string position, GameStatus gameStatus, out Notification invalidStatus)
         {
             if (!ValidateBoardConstraints(position, gameStatus, out invalidStatus))
                 return false;
@@ -14,7 +14,7 @@ namespace HW2.Models
             Position parsedPosition = PositionHelper.ParseInput(position);
             if (!gameStatus.ChessBoard.Contains(parsedPosition.X, parsedPosition.Y))
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_PIECE);
+                invalidStatus = new Notification(NotificationType.INVALID_PIECE);
                 return false;
             }
 
@@ -23,7 +23,7 @@ namespace HW2.Models
             return true;
         }
 
-        public bool MoveValidation(string position, GameStatus gameStatus, out InvalidStatus invalidStatus)
+        public bool MoveValidation(string position, GameStatus gameStatus, out Notification invalidStatus)
         {
             if (!ValidateBoardConstraints(position, gameStatus, out invalidStatus))            
                 return false;
@@ -33,31 +33,31 @@ namespace HW2.Models
             return true;
         }
 
-        private bool ValidateBoardConstraints(string position, GameStatus gameStatus, out InvalidStatus invalidStatus)
+        private bool ValidateBoardConstraints(string position, GameStatus gameStatus, out Notification invalidStatus)
         {            
             if (string.IsNullOrEmpty(position))
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.NULL);
+                invalidStatus = new Notification(NotificationType.NULL);
                 return false;
             }
             else if (position.Length > 2)
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.TOO_LONG);
+                invalidStatus = new Notification(NotificationType.TOO_LONG);
                 return false;
             }
             else if (position.Length < 2)
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.TOO_SHORT);
+                invalidStatus = new Notification(NotificationType.TOO_SHORT);
                 return false;
             }
             else if (position.Count(char.IsLetter) != 1 && position.Count(char.IsDigit) != 1)
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.BAD_COMBINATION);
+                invalidStatus = new Notification(NotificationType.BAD_COMBINATION);
                 return false;
             }
             else if (!PositionHelper.ValidateInput(position))
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_VALUES);
+                invalidStatus = new Notification(NotificationType.INVALID_VALUES);
                 return false;
             }           
 

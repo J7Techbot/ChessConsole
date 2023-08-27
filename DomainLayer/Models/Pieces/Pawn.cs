@@ -11,7 +11,7 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.PAWN;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out InvalidStatus invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
         {
             invalidStatus = null;
 
@@ -22,7 +22,7 @@ namespace HW2.Models.Pieces
             {
                 if (chessBoard.Contains(targetPosition.X, targetPosition.Y))
                 {
-                    invalidStatus = new InvalidStatus(InvalidErrorType.SQUARE_OCCUPIED);
+                    invalidStatus = new Notification(NotificationType.SQUARE_OCCUPIED);
                     return false;
                 }
             }
@@ -37,7 +37,7 @@ namespace HW2.Models.Pieces
             //invalid square
             else
             {
-                invalidStatus = new InvalidStatus(InvalidErrorType.INVALID_MOVE);
+                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 

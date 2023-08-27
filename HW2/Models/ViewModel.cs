@@ -1,4 +1,5 @@
-﻿using HW2.Helpers;
+﻿using HW2.Enums;
+using HW2.Helpers;
 using HW2.Managers;
 using HW2.Models;
 using ViewLayer.Enums;
@@ -12,7 +13,7 @@ namespace ViewLayer.Models
         private GameStatus gameStatus;
 
         public Action<GameStatus> UpdateGameStatusEvent { get; set; }
-        public Action<InvalidStatus> InvalidStatusNotificationEvent { get; set; }
+        public Action<Notification> NotificationEvent { get; set; }
         public Func<InputQueryType, string> ExpectedInputEvent { get; set; }
 
         public ViewModel()
@@ -26,6 +27,9 @@ namespace ViewLayer.Models
 
             while (true)
             {
+                if (gameManager.IsCheck())
+                    NotificationEvent?.Invoke(new Notification(NotificationType.CHECK));
+
                 var piecePositionInput = GetUserInputs(InputQueryType.SELECT_PIECE);
                 if (!ValidatePiecePosition(piecePositionInput))
                     continue;
@@ -36,12 +40,12 @@ namespace ViewLayer.Models
                 GameStatus gameStatus = gameManager.MakeMove(
                         PositionHelper.ParseInput(piecePositionInput),
                         PositionHelper.ParseInput(movePositionInput),
-                        out InvalidStatus invalidStatus);
+                        out Notification invalidStatus);
 
                 if(gameStatus != null)
                     UpdateView(gameStatus);
                 else
-                    InvalidStatusNotificationEvent?.Invoke(invalidStatus);
+                    NotificationEvent?.Invoke(invalidStatus);
             }
         }
         private void UpdateView(GameStatus gameStatus)
@@ -56,9 +60,9 @@ namespace ViewLayer.Models
         }
         public bool ValidatePiecePosition(string? position)
         {
-            if (!constraintValidator.SelectionValidation(position, gameStatus, out InvalidStatus invalidStatus))
+            if (!constraintValidator.SelectionValidation(position, gameStatus, out Notification invalidStatus))
             {
-                InvalidStatusNotificationEvent?.Invoke(invalidStatus);
+                NotificationEvent?.Invoke(invalidStatus);
                 return false;
             }
 
@@ -66,9 +70,9 @@ namespace ViewLayer.Models
         }
         public bool ValidateMovePosition(string? position)
         {
-            if (!constraintValidator.MoveValidation(position, gameStatus, out InvalidStatus invalidStatus))
+            if (!constraintValidator.MoveValidation(position, gameStatus, out Notification invalidStatus))
             {
-                InvalidStatusNotificationEvent?.Invoke(invalidStatus);
+                NotificationEvent?.Invoke(invalidStatus);
                 return false;
             }
 
