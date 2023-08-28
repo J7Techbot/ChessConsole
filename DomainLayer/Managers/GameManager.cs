@@ -26,7 +26,7 @@ namespace HW2.Managers
 
             if(IsCheck)
             {
-                if(CanUncheckKing(piece, targetPosition, out invalidStatus))
+                if(!CanUncheckKing(piece, targetPosition, out invalidStatus))
                     return null;
             }
             else
