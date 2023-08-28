@@ -26,10 +26,10 @@ namespace ViewLayer
             switch (inputQueryType)
             {
                 case InputQueryType.SELECT_PIECE:
-                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectPiece}", ConsoleTextPosition.BOTTOM);
+                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectPieceInfo}", ConsoleTextPosition.BOTTOM);
                     break;
                 case InputQueryType.SELECT_MOVE:
-                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectMove}", ConsoleTextPosition.BOTTOM);
+                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.SelectMoveInfo}", ConsoleTextPosition.BOTTOM);
                     break;
             }
 
@@ -45,37 +45,40 @@ namespace ViewLayer
             switch (invalidStatus.NotificationType)
             {
                 case NotificationType.NULL:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError);
                     break;
                 case NotificationType.TOO_LONG:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooLongError, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooLongError);
                     break;
                 case NotificationType.TOO_SHORT:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooShortError, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.TooShortError);
                     break;
                 case NotificationType.BAD_COMBINATION:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError);
                     break;
                 case NotificationType.INVALID_VALUES:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError);
                     break;
                 case NotificationType.INVALID_PIECE:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidPiece, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidPieceError);
                     break;
                 case NotificationType.INVALID_MOVE:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMove, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMoveError);
                     break;
                 case NotificationType.SQUARE_OCCUPIED:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupied, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupiedError);
                     break;
                 case NotificationType.INVALID_TARGET:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTarget, Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTargetError);
                     break;
                 case NotificationType.THREATENED_POSITION:
-                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.ThreatenedPosition} : {invalidStatus.Param.ToString()}", Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.ThreatenedPositionError} : {invalidStatus.Param.ToString()}");
                     break;
                 case NotificationType.CHECK:
-                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}", Console.CursorTop);
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}");
+                    break;
+                case NotificationType.UNCHECK_KING_FAILED:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.UncheckKingFailed}");
                     break;
             }
         }

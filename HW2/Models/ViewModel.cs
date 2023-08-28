@@ -27,13 +27,13 @@ namespace ViewLayer.Models
 
             while (true)
             {
-                if (gameManager.IsCheck())
+                if (gameManager.IsCheck)
                     NotificationEvent?.Invoke(new Notification(NotificationType.CHECK));
 
-                var piecePositionInput = GetUserInputs(InputQueryType.SELECT_PIECE);
+                var piecePositionInput = ExpectedInputEvent?.Invoke(InputQueryType.SELECT_PIECE);
                 if (!ValidatePiecePosition(piecePositionInput))
                     continue;
-                var movePositionInput = GetUserInputs(InputQueryType.SELECT_MOVE);
+                var movePositionInput = ExpectedInputEvent?.Invoke(InputQueryType.SELECT_MOVE);
                 if (!ValidateMovePosition(movePositionInput))
                     continue;
 
@@ -54,10 +54,7 @@ namespace ViewLayer.Models
 
             UpdateGameStatusEvent?.Invoke(gameStatus);
         }
-        private string GetUserInputs(InputQueryType inputQueryType)
-        {
-            return ExpectedInputEvent?.Invoke(inputQueryType);
-        }
+
         public bool ValidatePiecePosition(string? position)
         {
             if (!constraintValidator.SelectionValidation(position, gameStatus, out Notification invalidStatus))
@@ -65,7 +62,6 @@ namespace ViewLayer.Models
                 NotificationEvent?.Invoke(invalidStatus);
                 return false;
             }
-
             return true;
         }
         public bool ValidateMovePosition(string? position)
@@ -75,7 +71,6 @@ namespace ViewLayer.Models
                 NotificationEvent?.Invoke(invalidStatus);
                 return false;
             }
-
             return true;
         }
     }

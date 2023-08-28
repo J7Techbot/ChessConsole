@@ -14,5 +14,6 @@
         THREATENED_POSITION = 9,
 
         CHECK = 20,
+        UNCHECK_KING_FAILED = 21,
     }
 }

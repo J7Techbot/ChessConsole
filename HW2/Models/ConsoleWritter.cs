@@ -82,9 +82,11 @@ namespace ViewLayer.Models
 
             Console.Write(newText);
         }
-        public static void RewriteCurrentLine(string newText, int currentCursorTop)
+        public static void RewriteCurrentLine(string newText, int? cursorTop = null)
         {
-            ClearLine(currentCursorTop);
+            cursorTop = cursorTop ?? Console.CursorTop;
+
+            ClearLine(cursorTop);
 
             Console.Write(newText);
         }
