@@ -7,7 +7,6 @@ namespace HW2.Managers
     public class GameManager
     {
         public bool GameOver { get; private set; }
-        public bool IsCheck { get; private set; }
 
         private ChessBoard chessBoard;
         private RoundManager roundManager;
@@ -17,16 +16,25 @@ namespace HW2.Managers
             chessBoard = new ChessBoard();
             roundManager = new RoundManager();
         }
-        public GameStatus MakeMove(Position piecePosition, Position targetPosition, out Notification invalidStatus)
+        public GameStatus MakeMove(Position piecePosition, Position targetPosition, out Notification notification)
         {
             ChessPiece piece = chessBoard.GetPiece(piecePosition);
 
-            if (!piece.ValidateMove(targetPosition, chessBoard.GetChessBoard(), out invalidStatus))
+            if (piece.Color != roundManager.CurrentPlayerColor)
+            {
+                notification = new Notification(NotificationType.INVALID_COLOR);
+                return null;
+            }
+                
+            if (!piece.ValidateMove(targetPosition, chessBoard.GetChessBoard(), out notification))
                 return null;
 
-            if(IsCheck)
+            if (CanExposeKing(piece, targetPosition, out notification))
+                return null;
+
+            if (IsCheck())
             {
-                if(!CanUncheckKing(piece, targetPosition, out invalidStatus))
+                if (!CanProtectKing(piece, targetPosition, out notification))
                     return null;
             }
             else
@@ -34,32 +42,18 @@ namespace HW2.Managers
 
             roundManager.NextRound();
 
-            IsCheck = IsKingInCheck();
-
             return GetGameStatus();
         }
 
-        private bool CanUncheckKing(ChessPiece piece, Position targetPosition, out Notification invalidStatus)
-        {
-            invalidStatus = null;
-
-            Position originalPosition = piece.GetCurrentPosition();
-
-            ChessPiece removedPiece = chessBoard.MovePiece(piece, targetPosition);
-
-            if (IsKingInCheck())
+        public void InitNewRound(out Notification notification)
+        {                        
+            if (IsCheck())
             {
-                chessBoard.MovePiece(piece, originalPosition);
-
-                if(removedPiece != null)
-                    chessBoard.MovePiece(removedPiece, removedPiece.GetCurrentPosition());
-
-                invalidStatus = new Notification(NotificationType.UNCHECK_KING_FAILED);
-
-                return false;
+                notification = new Notification(NotificationType.CHECK);
+                return;
             }
 
-            return true;
+            notification = null;
         }
 
         public GameStatus GetGameStatus()
@@ -67,25 +61,67 @@ namespace HW2.Managers
             return new GameStatus()
             {
                 ChessBoard = chessBoard.GetChessBoard(),
-                CurrentPlayer = roundManager.CurrentPlayer,
+                CurrentPlayer = roundManager.CurrentPlayerColor,
                 CurrentRound = roundManager.CurrentRound,
             };
         }
-        public bool IsKingInCheck()
+
+        private bool IsCheck()
         {
-            ChessPiece king = chessBoard.GetAllPieces(roundManager.CurrentPlayer,Enums.ChessPieceType.KING).First();
+            ChessPiece king = chessBoard.GetAllPieces(roundManager.CurrentPlayerColor, ChessPieceType.KING).First();
 
             List<ChessPiece> enemyPieces = chessBoard.GetAllPieces(
-                roundManager.CurrentPlayer == Enums.Color.WHITE ? Enums.Color.BLACK : Enums.Color.WHITE);
+                roundManager.CurrentPlayerColor == Color.WHITE ? Color.BLACK : Color.WHITE);
 
             foreach (var enemy in enemyPieces)
             {
-                if (enemy.ValidateMove(king.GetCurrentPosition(), chessBoard.GetChessBoard(), out _))
-                {
+                if (enemy.ValidateMove(king.GetCurrentPosition(), chessBoard.GetChessBoard(), out _))               
                     return true;
-                }
+                
             }
 
+            return false;
+        }
+
+        private bool VerifyKingCover(ChessPiece piece, Position targetPosition)
+        {
+            Position originalPosition = piece.GetCurrentPosition();
+
+            ChessPiece removedPiece = chessBoard.MovePiece(piece, targetPosition);
+
+            if (IsCheck())
+            {
+                chessBoard.MovePiece(piece, originalPosition);
+
+                if (removedPiece != null)
+                    chessBoard.MovePiece(removedPiece, removedPiece.GetCurrentPosition());
+
+                return false;
+            }
+
+            return true;
+        }
+        private bool CanExposeKing(ChessPiece piece, Position targetPosition, out Notification notification)
+        {
+            if (!VerifyKingCover(piece, targetPosition))
+            {
+                notification = new Notification(NotificationType.KING_EXPOSED);
+                return true;
+            }
+
+            notification = null;
+            return false;
+        }
+        
+        private bool CanProtectKing(ChessPiece piece, Position targetPosition, out Notification notification)
+        {
+            if (!VerifyKingCover(piece, targetPosition))
+            {
+                notification = new Notification(NotificationType.KING_EXPOSED);
+                return true;
+            }
+
+            notification = null;
             return false;
         }
     }

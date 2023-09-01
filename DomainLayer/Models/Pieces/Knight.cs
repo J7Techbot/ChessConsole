@@ -11,7 +11,7 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.KNIGHT;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
         {
             List<Position> positions = new List<Position>();
             int[] knightMovesX = { -1, -2, -2, -1, 1, 2, 2, 1 };
@@ -30,15 +30,15 @@ namespace HW2.Models.Pieces
             
             if (!positions.Contains(targetPosition))
             {
-                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                notification = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
 
-            if (!IsValidTarget(targetPosition, chessBoard, out invalidStatus))
+            if (!IsValidTarget(targetPosition, chessBoard, out notification))
                 return false;
 
-            invalidStatus = null;
+            notification = null;
 
             return true;
         }

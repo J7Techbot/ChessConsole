@@ -31,19 +31,20 @@ namespace HW2.Models.Pieces
         {
             return chessPieceType;
         }
-        public abstract bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus);
+        public abstract bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification);
+
         public override string ToString()
         {
             return $"{Color.GetDescription()}{chessPieceType.GetDescription()}";
         }
-        public bool IsValidTarget(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public bool IsValidTarget(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
         {
-            invalidStatus = null;
+            notification = null;
 
             //target same color
             if (chessBoard[targetPosition.X, targetPosition.Y] != null && chessBoard[targetPosition.X, targetPosition.Y].Color == Color)
             {
-                invalidStatus = new Notification(NotificationType.INVALID_TARGET);
+                notification = new Notification(NotificationType.INVALID_TARGET);
                 return false;
             }
                             

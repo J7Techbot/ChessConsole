@@ -11,22 +11,22 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.ROOK;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
         {
-            if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out invalidStatus))
+            if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out notification))
             {
-                if (invalidStatus != null)
+                if (notification != null)
                 {
                     return false;
                 }
             }           
             else
             {
-                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                notification = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
-            if (!IsValidTarget(targetPosition, chessBoard, out invalidStatus))
+            if (!IsValidTarget(targetPosition, chessBoard, out notification))
                 return false;
 
             return true;

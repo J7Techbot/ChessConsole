@@ -7,6 +7,9 @@ using ViewLayer.Models;
 
 namespace ViewLayer
 {
+    /// <summary>
+    /// Represents User Interface. Its binded with viewModel via delegates.
+    /// </summary>
     public class View
     {
         private ViewModel viewModel;
@@ -14,13 +17,20 @@ namespace ViewLayer
         {
             viewModel = new ViewModel();
 
+            ///binds view model
             viewModel.UpdateGameStatusEvent += UpdateGameStatus;
-            viewModel.NotificationEvent += InvalidStatusNotification;
+            viewModel.NotificationEvent += Notify;
             viewModel.ExpectedInputEvent += GetInput;
 
+            ///starts main game loop
             viewModel.RunGame();
         }
 
+        /// <summary>
+        /// Offer input to user with notification defined by <paramref name="inputQueryType"/> and waits until input is set. 
+        /// </summary>
+        /// <param name="inputQueryType"></param>
+        /// <returns>User input</returns>
         private string GetInput(InputQueryType inputQueryType)
         {
             switch (inputQueryType)
@@ -40,9 +50,13 @@ namespace ViewLayer
             return input;
         }
 
-        private void InvalidStatusNotification(Notification invalidStatus)
+        /// <summary>
+        /// Write notification selected by its type to UI.
+        /// </summary>
+        /// <param name="notification"></param>
+        private void Notify(Notification notification)
         {
-            switch (invalidStatus.NotificationType)
+            switch (notification.NotificationType)
             {
                 case NotificationType.NULL:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.NullError);
@@ -56,6 +70,9 @@ namespace ViewLayer
                 case NotificationType.BAD_COMBINATION:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.BadCombinationError);
                     break;
+                case NotificationType.SQUARE_OCCUPIED:
+                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupiedError);
+                    break;
                 case NotificationType.INVALID_VALUES:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidValuesError);
                     break;
@@ -64,25 +81,32 @@ namespace ViewLayer
                     break;
                 case NotificationType.INVALID_MOVE:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMoveError);
-                    break;
-                case NotificationType.SQUARE_OCCUPIED:
-                    ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.SquareOccupiedError);
-                    break;
+                    break;               
                 case NotificationType.INVALID_TARGET:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTargetError);
                     break;
-                case NotificationType.THREATENED_POSITION:
-                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.ThreatenedPositionError} : {invalidStatus.Param.ToString()}");
+                case NotificationType.INVALID_POSITION:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.ThreatenedPositionError} : {notification.Param.ToString()}");
+                    break;
+                case NotificationType.INVALID_COLOR:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.InvalidColorError}");
                     break;
                 case NotificationType.CHECK:
                     ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}");
                     break;
-                case NotificationType.UNCHECK_KING_FAILED:
-                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.UncheckKingFailed}");
+                case NotificationType.MUST_PROTECT_KING:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.MustProtectKing}");
                     break;
+                case NotificationType.KING_EXPOSED:
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.KingExposed}");
+                    break;
+
             }
         }
 
+        /// <summary>
+        /// First view after start app.
+        /// </summary>
         public void StartNewMatch()
         {
             ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.NewGameInfo}", ConsoleTextPosition.MIDDLE);
@@ -92,6 +116,10 @@ namespace ViewLayer
             Console.Clear();
         }
 
+        /// <summary>
+        /// Main view that current player, round and chessboard. Need to be updated every round. 
+        /// </summary>
+        /// <param name="gameStatus"></param>
         private void UpdateGameStatus(GameStatus gameStatus)
         {
             Console.Clear();
@@ -103,16 +131,23 @@ namespace ViewLayer
             ConsoleWritter.WriteLineAtPosition($"{StringifyChessBoard(gameStatus.ChessBoard)}", ConsoleTextPosition.MIDDLE);           
         }
 
+        /// <summary>
+        /// Parse chessBoard to string for console view.
+        /// </summary>
+        /// <param name="chessBoard"></param>
+        /// <returns></returns>
         public string StringifyChessBoard(ChessPiece[,] chessBoard)
         {
             string board = $"A  B  C  D  E  F  G  H \n\n";
 
+            ///chessboard is 2d array, so both dimension must be iterate 
             for (int i = 0; i < chessBoard.GetLength(0); i++)
             {
                 board += $"{8 - i} - ";
 
                 for (int j = 0; j < chessBoard.GetLength(1); j++)
                 {
+                    ///if position is empty fill string with [], if there is chessPiece shows overrided ToString()
                     if (chessBoard[i, j] == null)
                         board += "[]";
                     else

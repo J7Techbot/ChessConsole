@@ -6,62 +6,64 @@ namespace HW2.Models
 {
     public class ConstraintValidator
     {
-        public bool SelectionValidation(string position, GameStatus gameStatus, out Notification invalidStatus)
+        public bool SelectionValidation(string position, GameStatus gameStatus, out Notification notification)
         {
-            if (!ValidateBoardConstraints(position, gameStatus, out invalidStatus))
+            if (!ValidateBoardConstraints(position, gameStatus, out notification))
                 return false;
 
             Position parsedPosition = PositionHelper.ParseInput(position);
             if (!gameStatus.ChessBoard.Contains(parsedPosition.X, parsedPosition.Y))
             {
-                invalidStatus = new Notification(NotificationType.INVALID_PIECE);
+                notification = new Notification(NotificationType.INVALID_PIECE);
                 return false;
             }
 
-            invalidStatus = null;
+
+
+            notification = null;
 
             return true;
         }
 
-        public bool MoveValidation(string position, GameStatus gameStatus, out Notification invalidStatus)
+        public bool MoveValidation(string position, GameStatus gameStatus, out Notification notification)
         {
-            if (!ValidateBoardConstraints(position, gameStatus, out invalidStatus))            
+            if (!ValidateBoardConstraints(position, gameStatus, out notification))            
                 return false;
             
-            invalidStatus = null;
+            notification = null;
 
             return true;
         }
 
-        private bool ValidateBoardConstraints(string position, GameStatus gameStatus, out Notification invalidStatus)
+        private bool ValidateBoardConstraints(string position, GameStatus gameStatus, out Notification notification)
         {            
             if (string.IsNullOrEmpty(position))
             {
-                invalidStatus = new Notification(NotificationType.NULL);
+                notification = new Notification(NotificationType.NULL);
                 return false;
             }
             else if (position.Length > 2)
             {
-                invalidStatus = new Notification(NotificationType.TOO_LONG);
+                notification = new Notification(NotificationType.TOO_LONG);
                 return false;
             }
             else if (position.Length < 2)
             {
-                invalidStatus = new Notification(NotificationType.TOO_SHORT);
+                notification = new Notification(NotificationType.TOO_SHORT);
                 return false;
             }
             else if (position.Count(char.IsLetter) != 1 && position.Count(char.IsDigit) != 1)
             {
-                invalidStatus = new Notification(NotificationType.BAD_COMBINATION);
+                notification = new Notification(NotificationType.BAD_COMBINATION);
                 return false;
             }
             else if (!PositionHelper.ValidateInput(position))
             {
-                invalidStatus = new Notification(NotificationType.INVALID_VALUES);
+                notification = new Notification(NotificationType.INVALID_VALUES);
                 return false;
             }           
 
-            invalidStatus = null;
+            notification = null;
 
             return true;
         }

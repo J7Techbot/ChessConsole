@@ -11,9 +11,9 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.PAWN;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
         {
-            invalidStatus = null;
+            notification = null;
 
             bool? isVertical = IsVerticalMove(targetPosition);
 
@@ -22,7 +22,7 @@ namespace HW2.Models.Pieces
             {
                 if (chessBoard.Contains(targetPosition.X, targetPosition.Y))
                 {
-                    invalidStatus = new Notification(NotificationType.SQUARE_OCCUPIED);
+                    notification = new Notification(NotificationType.SQUARE_OCCUPIED);
                     return false;
                 }
             }
@@ -30,14 +30,14 @@ namespace HW2.Models.Pieces
             //diagonal move (kill move)
             else if(isVertical != null && !(bool)isVertical)
             {
-                if(!IsValidTarget(targetPosition, chessBoard, out invalidStatus))
+                if(!IsValidTarget(targetPosition, chessBoard, out notification))
                     return false;
             }
 
             //invalid square
             else
             {
-                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                notification = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 

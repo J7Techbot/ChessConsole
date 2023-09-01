@@ -11,40 +11,60 @@ namespace HW2.Models.Pieces
             chessPieceType = ChessPieceType.KING;
         }
 
-        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public override bool ValidateMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
         {
-            if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out invalidStatus, distance: 1))
+            if (MoveHelper.VerticalHorizontal(currentPosition, targetPosition, chessBoard, out notification, distance: 1))
             {
-                if (invalidStatus != null)
+                if (notification != null)
                 {
                     return false;
                 }
             }
-            else if (MoveHelper.Diagonal(currentPosition, targetPosition, chessBoard, out invalidStatus, distance: 1))
+            else if (MoveHelper.Diagonal(currentPosition, targetPosition, chessBoard, out notification, distance: 1))
             {
-                if (invalidStatus != null)
+                if (notification != null)
                 {
                     return false;
                 }
             }
             else
             {
-                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                notification = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
-            if (!IsValidTarget(targetPosition, chessBoard, out invalidStatus))
+            if (!IsValidTarget(targetPosition, chessBoard, out notification))
                 return false;
 
-            if (!CanMove(targetPosition, chessBoard,out invalidStatus))            
+            if (!CanMove(targetPosition, chessBoard,out notification))            
                 return false;
             
 
             return true;
         }
-        private bool CanMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification invalidStatus)
+        public bool CanMoveToAvoidCheck(ChessPiece[,] chessBoard)
         {
-            invalidStatus = null;
+            List<Position> allowedPositions = new List<Position>();
+
+            allowedPositions.AddRange(PositionHelper.GetDiagonals(currentPosition, distance: 1));
+            allowedPositions.AddRange(PositionHelper.GetHorizontals(currentPosition, distance: 1));
+            allowedPositions.AddRange(PositionHelper.GetVerticals(currentPosition, distance: 1));
+
+            foreach (var allowedPosition in allowedPositions)
+            {
+                ChessPiece piece = chessBoard[allowedPosition.X, allowedPosition.Y];
+                if (piece != null && piece.Color == Color)
+                    continue;
+
+                if (CanMove(allowedPosition, chessBoard, out _))
+                    return true;
+            }
+
+            return false;
+        }
+        private bool CanMove(Position targetPosition, ChessPiece[,] chessBoard, out Notification notification)
+        {
+            notification = null;
 
             List<ChessPiece> enemies = GetAllEnemyPieces(chessBoard);
 
@@ -53,8 +73,8 @@ namespace HW2.Models.Pieces
                 //The target position is threatened by an enemy piece.
                 if (enemy.ValidateMove(targetPosition, chessBoard,out _))
                 {
-                    invalidStatus = new Notification(NotificationType.THREATENED_POSITION);
-                    invalidStatus.Param = enemy;
+                    notification = new Notification(NotificationType.INVALID_POSITION);
+                    notification.Param = enemy;
                     return false;
                 }
             }
@@ -74,5 +94,6 @@ namespace HW2.Models.Pieces
             }
             return enemies;
         }
+
     }
 }

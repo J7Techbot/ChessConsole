@@ -7,9 +7,9 @@ namespace HW2.Helpers
 {
     public static class MoveHelper
     {
-        public static bool Diagonal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification invalidStatus,int distance = 8)
+        public static bool Diagonal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification notification,int distance = 8)
         {
-            invalidStatus = null;
+            notification = null;
 
             List<Position> allDiagonals = PositionHelper.GetDiagonals(currentPosition, distance);
 
@@ -27,21 +27,22 @@ namespace HW2.Helpers
 
                     if (chessBoard.Contains(x, y))
                     {
-                        invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                        notification = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
             }
             else
             {
-                invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                notification = new Notification(NotificationType.INVALID_MOVE);
                 return false;
             }
 
             return true;
         }
-        public static bool VerticalHorizontal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification invalidStatus, int distance = 8)
+
+        public static bool VerticalHorizontal(Position currentPosition, Position nextPosition, ChessPiece[,] chessBoard, out Notification notification, int distance = 8)
         {
-            invalidStatus = null;
+            notification = null;
 
             List<Position> allVerticals = PositionHelper.GetVerticals(currentPosition, distance);
             List<Position> allHorizontals = PositionHelper.GetHorizontals(currentPosition, distance);
@@ -57,7 +58,7 @@ namespace HW2.Helpers
                     for (int i = floor; i <= ceil; i++)
                     {
                         if (chessBoard.Contains(currentPosition.X, i))
-                            invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                            notification = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
                 //vertical
@@ -69,7 +70,7 @@ namespace HW2.Helpers
                     for (int i = floor; i <= ceil; i++)
                     {
                         if (chessBoard.Contains(i, currentPosition.Y))
-                            invalidStatus = new Notification(NotificationType.INVALID_MOVE);
+                            notification = new Notification(NotificationType.INVALID_MOVE);
                     }
                 }
             }

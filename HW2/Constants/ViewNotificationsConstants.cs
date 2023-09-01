@@ -23,6 +23,7 @@ namespace ViewLayer.Constants
         public static readonly string BadCombinationError = "Zadaná hodnota neobsahuje číslo, nebo znak.";
         public static readonly string InvalidValuesError = "Zadaná hodnota přesahuje maximální hodnotu hrací desky.";
         public static readonly string InvalidPieceError = "Na vybraném poli se nenachází žádná figura.";
+        public static readonly string InvalidColorError = "V tomto kole nelze táhnout figurou této barvy.";
         public static readonly string InvalidMoveError = "Neplatný pohyb.";
         public static readonly string SquareOccupiedError = "Na vybraném čtverci se nachází jiná figura.";
         public static readonly string InvalidTargetError = "Nelze cílit na vlastní figury.";
@@ -30,6 +31,7 @@ namespace ViewLayer.Constants
 
         //Game
         public static readonly string Check = "Král je v ohrožení!";
-        public static readonly string UncheckKingFailed = "Tento tah zahrát nelze, král zůstane v ohrožení.";
+        public static readonly string MustProtectKing = "Tento tah zahrát nelze, král zůstane v ohrožení.";
+        public static readonly string KingExposed = "Tento tah zahrát nelze, bude odkryt král.";
     }
 }
