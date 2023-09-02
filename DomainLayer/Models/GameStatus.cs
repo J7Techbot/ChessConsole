@@ -3,6 +3,9 @@ using HW2.Models.Pieces;
 
 namespace HW2.Models
 {
+    /// <summary>
+    /// It contains information about the game state.
+    /// </summary>
     public class GameStatus
     {
         public ChessPiece[,] ChessBoard { get; set; }

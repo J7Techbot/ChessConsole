@@ -71,7 +71,7 @@ namespace ViewLayer.Models
         }
 
         /// <summary>
-        /// Sands information about player,round and chessboard to view.
+        /// Actualize information about player,round and chessboard at view.
         /// </summary>
         /// <param name="gameStatus"></param>
         private void UpdateView(GameStatus gameStatus)

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ViewLayer.Constants
+﻿namespace ViewLayer.Constants
 {
+    /// <summary>
+    /// It contains all the texts that can be displayed on the user interface.
+    /// </summary>
     public static class ViewNotificationsConstants
     {
         //Infos
-        public static readonly string NewGameInfo = "Vítám vás ve hře šachu.\nDoufám, že si hru užijete stejně jako já její programování.\nPro pokračování stiskněte jakékoliv tlačítko.";
+        public static readonly string NewGameInfo = "Vítám vás ve hře šachu.\n\nPro pokračování stiskněte jakékoliv tlačítko.";
         public static readonly string NewRoundInfo = "Začalo nové kolo.";
         public static readonly string CurrentPlayerInfo = "Na tahu je hráč: ";
         public static readonly string CurrentRoundInfo = "Kolo: ";

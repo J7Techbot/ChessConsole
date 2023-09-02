@@ -2,6 +2,9 @@
 
 namespace HW2.Managers
 {
+    /// <summary>
+    /// It keeps track of round information.
+    /// </summary>
     public class RoundManager
     {
         public int CurrentRound { get; private set; } = 1;

@@ -4,6 +4,9 @@ using HW2.Enums;
 
 namespace HW2.Managers
 {
+    /// <summary>
+    /// It handles the management of pieces.
+    /// </summary>
     public class PiecesManager
     {
         public Dictionary<Color, List<ChessPiece>> InstantiateAllPieces()

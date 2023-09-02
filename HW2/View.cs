@@ -21,8 +21,15 @@ namespace ViewLayer
             viewModel.UpdateGameStatusEvent += UpdateGameStatus;
             viewModel.NotificationEvent += Notify;
             viewModel.ExpectedInputEvent += GetInput;
+        }
 
-            ///starts main game loop
+        /// <summary>
+        /// Starts main game loop
+        /// </summary>
+        public void Start()
+        {
+            NotifyNewMatch();
+
             viewModel.RunGame();
         }
 
@@ -81,7 +88,7 @@ namespace ViewLayer
                     break;
                 case NotificationType.INVALID_MOVE:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidMoveError);
-                    break;               
+                    break;
                 case NotificationType.INVALID_TARGET:
                     ConsoleWritter.RewriteCurrentLine(ViewNotificationsConstants.InvalidTargetError);
                     break;
@@ -92,7 +99,7 @@ namespace ViewLayer
                     ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.InvalidColorError}");
                     break;
                 case NotificationType.CHECK:
-                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}");
+                    ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.Check}", offset: 2);
                     break;
                 case NotificationType.MUST_PROTECT_KING:
                     ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.MustProtectKing}");
@@ -107,7 +114,7 @@ namespace ViewLayer
         /// <summary>
         /// First view after start app.
         /// </summary>
-        public void StartNewMatch()
+        public void NotifyNewMatch()
         {
             ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.NewGameInfo}", ConsoleTextPosition.MIDDLE);
 
@@ -128,7 +135,7 @@ namespace ViewLayer
                 $"{ViewNotificationsConstants.CurrentPlayerInfo}{gameStatus.CurrentPlayer}\n" +
                 $"{ViewNotificationsConstants.CurrentRoundInfo}{gameStatus.CurrentRound}", ConsoleTextPosition.TOP);
 
-            ConsoleWritter.WriteLineAtPosition($"{StringifyChessBoard(gameStatus.ChessBoard)}", ConsoleTextPosition.MIDDLE);           
+            ConsoleWritter.WriteLineAtPosition($"{StringifyChessBoard(gameStatus.ChessBoard)}", ConsoleTextPosition.MIDDLE);
         }
 
         /// <summary>
