@@ -1,5 +1,6 @@
-﻿using HW2.Helpers;
-using HW2.Managers;
+﻿using DomainLayer.Directors;
+using DomainLayer.Interfaces;
+using HW2.Helpers;
 using HW2.Models;
 using ViewLayer.Enums;
 
@@ -10,7 +11,7 @@ namespace ViewLayer.Models
     /// </summary>
     public class ViewModel
     {
-        private GameManager gameManager;
+        private IGameDirector gameDirector;
         private GameStatus gameStatus;
         private ConstraintValidator constraintValidator;
 
@@ -20,7 +21,7 @@ namespace ViewLayer.Models
 
         public ViewModel()
         {
-            gameManager = new GameManager();
+            gameDirector = new ChessDirector();
             constraintValidator = new ConstraintValidator();
         }
 
@@ -29,12 +30,12 @@ namespace ViewLayer.Models
         /// </summary>
         public void RunGame()
         {            
-            UpdateView(gameManager.GetGameStatus());
+            UpdateView(gameDirector.GetGameStatus());
 
             while (true)
             {
                 ///verify if king of current player is exposed
-                gameManager.InitNewRound(out Notification notification);
+                gameDirector.InitNewRound(out Notification notification);
 
                 if (notification != null)
                     NotificationEvent?.Invoke(notification);
@@ -56,8 +57,8 @@ namespace ViewLayer.Models
                     continue;
                 }
                     
-                ///pass validated and parsed input from user to <see cref="GameManager"/>
-                GameStatus gameStatus = gameManager.MakeMove(
+                ///pass validated and parsed input from user to <see cref="ChessDirector"/>
+                GameStatus gameStatus = gameDirector.MakeMove(
                         PositionHelper.ParseInput(piecePositionInput),
                         PositionHelper.ParseInput(movePositionInput),
                         out notification);

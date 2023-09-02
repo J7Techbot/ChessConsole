@@ -1,19 +1,21 @@
-﻿using HW2.Enums;
+﻿using DomainLayer.Interfaces;
+using HW2.Enums;
+using HW2.Managers;
 using HW2.Models;
 using HW2.Models.Pieces;
 
-namespace HW2.Managers
+namespace DomainLayer.Directors
 {
     /// <summary>
     /// It serves to control the game.It updates the game board using the methods InitNewRound and MakeMove.
     /// It collects information about the game state and generates error notifications.
     /// </summary>
-    public class GameManager
+    public class ChessDirector : IGameDirector
     {
         private ChessBoard chessBoard;
         private RoundManager roundManager;
 
-        public GameManager()
+        public ChessDirector()
         {
             chessBoard = new ChessBoard();
             roundManager = new RoundManager();
@@ -37,7 +39,7 @@ namespace HW2.Managers
                 notification = new Notification(NotificationType.INVALID_COLOR);
                 return null;
             }
-                
+
             ///move validation
             if (!selectedPiece.ValidateMove(targetPosition, chessBoard.GetChessBoard(), out notification))
                 return null;
@@ -49,7 +51,7 @@ namespace HW2.Managers
 
             ///king exposion validation 
             if (CanExposeKing(selectedPiece, targetPosition, out notification))
-                return null;            
+                return null;
 
             chessBoard.MovePiece(selectedPiece, targetPosition);
 
@@ -64,7 +66,7 @@ namespace HW2.Managers
         /// </summary>
         /// <param name="notification"></param>
         public void InitNewRound(out Notification notification)
-        {                        
+        {
             if (IsCheck())
             {
                 notification = new Notification(NotificationType.CHECK);
@@ -102,8 +104,8 @@ namespace HW2.Managers
             ///It attempts to find an enemy piece that directly threatens the target position.
             foreach (var enemy in enemyPieces)
             {
-                if (enemy.ValidateMove(king.GetCurrentPosition(), chessBoard.GetChessBoard(), out _))               
-                    return true;                
+                if (enemy.ValidateMove(king.GetCurrentPosition(), chessBoard.GetChessBoard(), out _))
+                    return true;
             }
 
             return false;
