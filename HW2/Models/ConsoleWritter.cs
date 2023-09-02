@@ -8,7 +8,7 @@ namespace ViewLayer.Models
     public static class ConsoleWritter
     {
         private const int topPadding = 2;
-        private const int bottomPadding = 4;
+        private const int bottomPadding = 3;
 
         /// <summary>
         /// It prints lines to the correct position in the console based on the provided <paramref name="position"/>.

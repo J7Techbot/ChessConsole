@@ -10,8 +10,8 @@
         public static readonly string NewRoundInfo = "Začalo nové kolo.";
         public static readonly string CurrentPlayerInfo = "Na tahu je hráč: ";
         public static readonly string CurrentRoundInfo = "Kolo: ";
-        public static readonly string SelectPieceInfo = "Prosím vyberte figuru se kterou chcete táhnout.";
-        public static readonly string SelectMoveInfo = "Prosím vyberte pozici kam chcete táhnout.";
+        public static readonly string SelectPieceInfo = "Prosím vyberte figuru se kterou chcete táhnout.\nPro ukončení hry zadejte [end]";
+        public static readonly string SelectMoveInfo = "Prosím vyberte pozici kam chcete táhnout.\nPro ukončení hry zadejte [end]";
 
         //Erorrs
         public static readonly string NullError = "Zadejte hodnotu pozice v libovolném pořadí.";
@@ -30,5 +30,6 @@
         public static readonly string Check = "Král je v ohrožení!";
         public static readonly string MustProtectKing = "Tento tah zahrát nelze, král zůstane v ohrožení.";
         public static readonly string KingExposed = "Tento tah zahrát nelze, bude odkryt král.";
+        public static readonly string GameOver = "Zvítězil hráč : ";
     }
 }

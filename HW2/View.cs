@@ -4,6 +4,7 @@ using HW2.Models.Pieces;
 using ViewLayer.Constants;
 using ViewLayer.Enums;
 using ViewLayer.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ViewLayer
 {
@@ -106,6 +107,10 @@ namespace ViewLayer
                     break;
                 case NotificationType.KING_EXPOSED:
                     ConsoleWritter.RewriteCurrentLine($"{ViewNotificationsConstants.KingExposed}");
+                    break;
+                case NotificationType.GAME_OVER:
+                    Console.Clear();
+                    ConsoleWritter.WriteLineAtPosition($"{ViewNotificationsConstants.GameOver}{notification.Param.ToString()}", ConsoleTextPosition.MIDDLE);
                     break;
 
             }

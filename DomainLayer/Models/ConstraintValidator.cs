@@ -14,23 +14,25 @@ namespace HW2.Models
         /// </summary>
         /// <param name="position"></param>
         /// <param name="gameStatus"></param>
-        /// <param name="notification"></param>
-        /// <returns>It returns false if it's not possible to select a piece.</returns>
-        public bool SelectionValidation(string position, GameStatus gameStatus, out Notification notification)
+        /// <returns>It returns false and notification if it's not possible to select a piece.</returns>
+        public Tuple<bool, Notification> SelectionValidation(string position, GameStatus gameStatus)
         {
+            Notification notification = null;
+
             if (!ValidateCommonConstraints(position, gameStatus, out notification))
-                return false;
+            {
+                return Tuple.Create(false, notification);
+            }              
 
             Position parsedPosition = PositionHelper.ParseInput(position);
             if (!gameStatus.ChessBoard.Contains(parsedPosition.X, parsedPosition.Y))
             {
                 notification = new Notification(NotificationType.INVALID_PIECE);
-                return false;
+
+                return Tuple.Create(false, notification);
             }
 
-            notification = null;
-
-            return true;
+            return Tuple.Create(true, notification);
         }
 
         /// <summary>
@@ -38,16 +40,17 @@ namespace HW2.Models
         /// </summary>
         /// <param name="position"></param>
         /// <param name="gameStatus"></param>
-        /// <param name="notification"></param>
-        /// <returns>It returns false if it's not possible to move with selected piece.</returns>
-        public bool MoveValidation(string position, GameStatus gameStatus, out Notification notification)
+        /// <returns>It returns false and notification if it's not possible to move with selected piece.</returns>
+        public Tuple<bool,Notification> MoveValidation(string position, GameStatus gameStatus)
         {
-            if (!ValidateCommonConstraints(position, gameStatus, out notification))            
-                return false;
-            
-            notification = null;
+            Notification notification = null;
 
-            return true;
+            if (!ValidateCommonConstraints(position, gameStatus, out notification))
+            {
+                return Tuple.Create(false, notification); 
+            }                           
+
+            return Tuple.Create(true, notification);
         }
 
         /// <summary>

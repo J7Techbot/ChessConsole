@@ -21,5 +21,6 @@
         CHECK = 20,
         KING_EXPOSED = 21,
         MUST_PROTECT_KING = 22,
+        GAME_OVER = 23,
     }
 }

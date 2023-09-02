@@ -8,11 +8,14 @@ namespace HW2.Models
     public class Notification
     {
         public NotificationType NotificationType { get; set; }
-        public object Param { get; set; } 
+        public object Param { get; set; }
 
-        public Notification(NotificationType notificationType)
+        public Notification(NotificationType notificationType, object param = null)
         {
             NotificationType = notificationType;
+
+            if (param != null)
+                Param = param;
         }
     }
 
