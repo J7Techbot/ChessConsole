@@ -61,7 +61,6 @@ namespace ViewLayer.Models
                         return;
                 }
                    
-
                 ///pass validated and parsed input from user to <see cref="ChessDirector"/>
                 GameStatus gameStatus = gameDirector.MakeMove(
                         PositionHelper.ParseInput(piecePositionInput),
@@ -76,7 +75,14 @@ namespace ViewLayer.Models
             }
         }
 
-
+        /// <summary>
+        /// It validates the input to see if it can be parsed into a position or if the user has decided to end the game.
+        /// </summary>
+        /// <param name="validationFunc">"Function validating the input format.</param>
+        /// <param name="input"></param>
+        /// <param name="gameStatus"></param>
+        /// <param name="canContinue"></param>
+        /// <returns>If the player ends the game, it returns false, and <paramref name="canContinue"/> is set to false.</returns>
         public bool ValidateInput(Func<string, GameStatus, Tuple<bool, Notification>> validationFunc, string input, GameStatus gameStatus, out bool canContinue)
         {
             if (!CheckEndGame(input, gameStatus))
